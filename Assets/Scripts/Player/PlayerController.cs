@@ -59,11 +59,20 @@ public class PlayerController : MonoBehaviour {
     }
 
     void CheckFlying() {
-        if (!floorContact.isTouching)
-        {
+        if (!floorContact.isTouching) {
             animator.SetBool("Flying", true);
+
+            if (rigidbody2D.velocity.y < 0) {
+                animator.SetBool("Flying Down", true);
+            } else {
+                animator.SetBool("Flying Down", false);
+            }
+
+            Debug.Log(rigidbody2D.velocity);
+
         } else {
             animator.SetBool("Flying", false);
+            animator.SetBool("Flying Down", false);
         }
     }
 
