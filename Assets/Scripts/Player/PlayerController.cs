@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
         if (CanJump()) {
             Jump();
         }
+        CheckFlying();
 	}
 
     void Move() {
@@ -54,6 +55,15 @@ public class PlayerController : MonoBehaviour {
     void Jump() {
         if (Input.GetButtonDown("Jump")) {
             rigidbody2D.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+        }
+    }
+
+    void CheckFlying() {
+        if (!floorContact.isTouching)
+        {
+            animator.SetBool("Flying", true);
+        } else {
+            animator.SetBool("Flying", false);
         }
     }
 
