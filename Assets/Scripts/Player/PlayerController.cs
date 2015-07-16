@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// This class is the main Player Controller
+/// </summary>
 public class PlayerController : MonoBehaviour {
 
     [Range(0.0f, 100.0f)]
     public float movementSpeed;
+    [Range(0.0f, 100.0f)]
+    public float runMultiplier = 1.0f;
     [Range(0.0f, 50.0f)]
     public float jumpForce;
 
@@ -36,10 +41,17 @@ public class PlayerController : MonoBehaviour {
 
         float horizontalAxis = Input.GetAxis("Horizontal");
 
-        transform.Translate((Vector3.right * horizontalAxis * movementSpeed) * Time.deltaTime);
+        transform.Translate((Vector3.right * horizontalAxis * movementSpeed * (Input.GetButton("Run") ? runMultiplier : 1) ) * Time.deltaTime);
 
         if (horizontalAxis != 0){
             animator.SetBool("Walking", true);
+
+            if (Input.GetButton("Run")) {
+                animator.SetBool("Running", true);
+            } else {
+                animator.SetBool("Running", false);
+            }
+
         } else {
             animator.SetBool("Walking", false);
         }
@@ -67,8 +79,6 @@ public class PlayerController : MonoBehaviour {
             } else {
                 animator.SetBool("Flying Down", false);
             }
-
-            Debug.Log(rigidbody2D.velocity);
 
         } else {
             animator.SetBool("Flying", false);
